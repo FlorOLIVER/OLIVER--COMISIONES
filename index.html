@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Comisiones 2026 — OLIVER Sports</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a18; padding: 24px 16px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  h1 { font-size: 20px; font-weight: 500; margin-bottom: 3px; }
+  .subtitle { font-size: 12px; color: #73726c; margin-bottom: 20px; }
+
+  /* SCENARIO TABS */
+  .scenario-tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .stab { padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid #e0dfd8; color: #73726c; background: #fff; transition: all .15s; }
+  .stab.active { background: #E6F1FB; color: #0C447C; border-color: #85B7EB; }
+  .stab:hover { border-color: #b4b2a9; }
+
+  /* SLIDERS */
+  .sliders-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  @media(max-width:750px){ .sliders-grid { grid-template-columns: 1fr; } }
+  .slider-card { background: #fff; border: 1px solid #e0dfd8; border-radius: 10px; padding: 14px 16px; }
+  .slider-card .sc-head { font-size: 11px; font-weight: 500; color: #73726c; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+  .slider-card .sc-head .badge { display: inline-block; padding: 1px 8px; border-radius: 20px; font-size: 11px; font-weight: 500; text-transform: none; letter-spacing: 0; }
+  .slider-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .slider-row:last-child { margin-bottom: 0; }
+  .slider-row label { font-size: 12px; color: #3d3d3a; flex: 0 0 130px; line-height: 1.4; }
+  .slider-row input[type=range] { flex: 1; accent-color: #1D9E75; }
+  .slider-row .val  { font-size: 13px; font-weight: 500; color: #1a1a18; flex: 0 0 44px; text-align: right; }
+  .slider-row .sec  { font-size: 10px; color: #9c9a92; flex: 0 0 90px; text-align: right; }
+
+  /* KPI CARDS */
+  .kpi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 16px; }
+  @media(max-width:600px){ .kpi-grid { grid-template-columns: repeat(2,1fr); } }
+  .kcard { background: #fff; border: 1px solid #e0dfd8; border-radius: 8px; padding: 11px 13px; }
+  .kcard.highlight { border-color: #1D9E75; }
+  .kcard .kv { font-size: 18px; font-weight: 500; color: #1a1a18; margin-bottom: 2px; }
+  .kcard .kl { font-size: 10px; color: #73726c; line-height: 1.4; }
+
+  /* TABLES */
+  .card { background: #fff; border: 1px solid #e0dfd8; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+  .card-head { padding: 9px 14px; border-bottom: 1px solid #e0dfd8; background: #f5f4f0; font-size: 12px; font-weight: 500; color: #3d3d3a; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .card-head .ch-right { margin-left: auto; font-size: 11px; font-weight: 400; color: #73726c; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { font-weight: 500; font-size: 10px; color: #73726c; text-transform: uppercase; letter-spacing: .04em; text-align: left; padding: 7px 12px; border-bottom: 1px solid #e0dfd8; background: #faf9f6; white-space: nowrap; }
+  td { padding: 8px 12px; border-bottom: 1px solid #f0efe8; color: #1a1a18; vertical-align: middle; line-height: 1.5; }
+  tr:last-child td { border-bottom: none; }
+  .total-row td { font-weight: 500; background: #f5f4f0; border-top: 1px solid #e0dfd8; }
+  .note { font-size: 11px; color: #9c9a92; padding: 7px 13px; border-top: 1px solid #f0efe8; background: #faf9f6; }
+  .section-row td { background: #f0efe8; font-size: 10px; font-weight: 500; color: #73726c; text-transform: uppercase; letter-spacing: .05em; padding: 4px 12px; border-bottom: 1px solid #e0dfd8; }
+
+  /* PILLS */
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .p-red    { background: #FCEBEB; color: #791F1F; }
+  .p-amber  { background: #FAEEDA; color: #633806; }
+  .p-green  { background: #EAF3DE; color: #27500A; }
+  .p-blue   { background: #E6F1FB; color: #0C447C; }
+  .p-teal   { background: #E1F5EE; color: #085041; }
+  .p-gray   { background: #F1EFE8; color: #444441; }
+
+  /* BAR */
+  .bar-wrap { width: 100%; background: #f0efe8; border-radius: 3px; height: 5px; margin-top: 3px; overflow: hidden; }
+  .bar-fill  { height: 5px; border-radius: 3px; transition: width .3s; }
+
+  /* TRAMO RATES TABLE inside slider card */
+  .rate-table { width: 100%; font-size: 11px; margin-top: 10px; border-collapse: collapse; }
+  .rate-table th { font-size: 10px; color: #73726c; font-weight: 500; text-align: left; padding: 3px 6px; border-bottom: 1px solid #f0efe8; }
+  .rate-table td { padding: 3px 6px; color: #3d3d3a; border-bottom: 1px solid #f8f7f3; }
+  .rate-table tr:last-child td { border-bottom: none; }
+
+  /* REGLAS */
+  .reglas { background: #fff; border: 1px solid #e0dfd8; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+  .reglas h3 { font-size: 11px; font-weight: 500; color: #73726c; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
+  .regla-row { display: grid; grid-template-columns: 200px 1fr; gap: 10px; margin-bottom: 9px; font-size: 12px; line-height: 1.6; }
+  .regla-row .rk { font-weight: 500; color: #1a1a18; }
+  .regla-row .rv { color: #3d3d3a; }
+
+  .footer { text-align: center; font-size: 11px; color: #9c9a92; margin-top: 20px; padding-top: 14px; border-top: 1px solid #e0dfd8; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <p class="subtitle">Objetivo total: 5.000 OLIS B2B + 1.200 OLIS B2C + Renovaciones · Condición: 90% cobranza por Q</p>
+  <p class="subtitle">Objetivo total: 5.000 OLIS B2B + 1.200 OLIS B2C + Renovaciones · Condición: 90% cobranza por Q</p>
+
+  <!-- SCENARIO TABS -->
+  <div class="scenario-tabs">
+    <div class="stab" onclick="setScenario(50,this)">50% · Año muy malo</div>
+    <div class="stab" onclick="setScenario(70,this)">70% · Umbral mínimo</div>
+    <div class="stab active" onclick="setScenario(85,this)">85% · Año regular</div>
+    <div class="stab" onclick="setScenario(100,this)">100% · Objetivo pleno</div>
+    <div class="stab" onclick="setScenario(115,this)">115% · Superación</div>
+    <div class="stab" onclick="setScenario(130,this)">130% · Año excelente</div>
+  </div>
+
+  <!-- SLIDERS GRID: one card per B2B format + B2C + Renovaciones -->
+  <div class="sliders-grid">
+
+    <!-- Formato Compra -->
+    <div class="slider-card">
+      <div class="sc-head">
+        Formato Compra B2B
+        <span class="badge p-blue">€350 avg · 1.900 OLIS obj.</span>
+      </div>
+      <div class="slider-row">
+        <label>% cumplimiento</label>
+        <input type="range" id="sl-compra" min="0" max="140" value="85" step="1" oninput="recalc()">
+        <span class="val" id="v-compra">85%</span>
+        <span class="sec" id="o-compra">1.615 OLIS</span>
+      </div>
+      <table class="rate-table">
+        <tr><th>Tramo</th><th>Tasa Sales</th><th>Tasa Resto</th><th>Motivo</th></tr>
+        <tr><td>T1 · 0–89%</td><td>2,0%</td><td>1,0%</td><td style="color:#9c9a92">Tramo base · ticket €350</td></tr>
+        <tr><td>T2 · 90–100%</td><td style="color:#0F6E56;font-weight:500">3,5%</td><td>1,0%</td><td style="color:#9c9a92">Objetivo cumplido</td></tr>
+        <tr><td>T3 · +100%</td><td style="color:#185FA5;font-weight:500">4,5%</td><td>1,0%</td><td style="color:#9c9a92">Solo revenue incremental</td></tr>
+      </table>
+    </div>
+
+    <!-- Formato Suscripción -->
+    <div class="slider-card">
+      <div class="sc-head">
+        Formato Suscripción B2B
+        <span class="badge p-teal">€185 avg · 1.280 OLIS obj.</span>
+      </div>
+      <div class="slider-row">
+        <label>% cumplimiento</label>
+        <input type="range" id="sl-susc" min="0" max="140" value="85" step="1" oninput="recalc()">
+        <span class="val" id="v-susc">85%</span>
+        <span class="sec" id="o-susc">1.088 OLIS</span>
+      </div>
+      <table class="rate-table">
+        <tr><th>Tramo</th><th>Tasa Sales</th><th>Tasa Resto</th><th>Motivo</th></tr>
+        <tr><td>T1 · 0–89%</td><td>1,0%</td><td>1,0%</td><td style="color:#9c9a92">Tramo base · ticket €185</td></tr>
+        <tr><td>T2 · 90–100%</td><td style="color:#0F6E56;font-weight:500">2,0%</td><td>1,0%</td><td style="color:#9c9a92">Objetivo cumplido</td></tr>
+        <tr><td>T3 · +100%</td><td style="color:#185FA5;font-weight:500">3,0%</td><td>1,0%</td><td style="color:#9c9a92">Solo revenue incremental</td></tr>
+      </table>
+    </div>
+
+    <!-- Formato Partner -->
+    <div class="slider-card">
+      <div class="sc-head">
+        Formato Partner B2B
+        <span class="badge p-gray">€250 avg · 190 OLIS obj.</span>
+      </div>
+      <div class="slider-row">
+        <label>% cumplimiento</label>
+        <input type="range" id="sl-partner" min="0" max="140" value="85" step="1" oninput="recalc()">
+        <span class="val" id="v-partner">85%</span>
+        <span class="sec" id="o-partner">162 OLIS</span>
+      </div>
+      <table class="rate-table">
+        <tr><th>Tramo</th><th>Tasa Sales</th><th>Tasa Resto</th><th>Motivo</th></tr>
+        <tr><td>T1 · 0–89%</td><td>1,0%</td><td>1,0%</td><td style="color:#9c9a92">Tramo base · ticket €250</td></tr>
+        <tr><td>T2 · 90–100%</td><td style="color:#0F6E56;font-weight:500">2,0%</td><td>1,0%</td><td style="color:#9c9a92">Objetivo cumplido</td></tr>
+        <tr><td>T3 · +100%</td><td style="color:#185FA5;font-weight:500">3,0%</td><td>1,0%</td><td style="color:#9c9a92">Solo revenue incremental</td></tr>
+      </table>
+    </div>
+
+    <!-- OLIVER PRO US -->
+    <div class="slider-card">
+      <div class="sc-head">
+        OLIVER PRO US
+        <span class="badge p-amber">€200 avg · 2.350 OLIS obj.</span>
+      </div>
+      <div class="slider-row">
+        <label>% cumplimiento</label>
+        <input type="range" id="sl-us" min="0" max="140" value="85" step="1" oninput="recalc()">
+        <span class="val" id="v-us">85%</span>
+        <span class="sec" id="o-us">1.998 OLIS</span>
+      </div>
+      <table class="rate-table">
+        <tr><th>Tramo</th><th>Tasa Sales</th><th>Tasa Resto</th><th>Motivo</th></tr>
+        <tr><td>T1 · 0–89%</td><td>1,0%</td><td>1,0%</td><td style="color:#9c9a92">Tramo base · ticket €200</td></tr>
+        <tr><td>T2 · 90–100%</td><td style="color:#0F6E56;font-weight:500">2,0%</td><td>1,0%</td><td style="color:#9c9a92">Objetivo cumplido</td></tr>
+        <tr><td>T3 · +100%</td><td style="color:#185FA5;font-weight:500">3,0%</td><td>1,0%</td><td style="color:#9c9a92">Solo revenue incremental</td></tr>
+      </table>
+    </div>
+
+    <!-- B2C Player -->
+    <div class="slider-card">
+      <div class="sc-head">
+        OLIVER PLAYER B2C
+        <span class="badge p-gray">€156 pond. · 1.200 OLIS obj.</span>
+      </div>
+      <div class="slider-row">
+        <label>Shopify + Eventos<br><span style="font-size:10px;color:#9c9a92">€160 · 960 OLIS</span></label>
+        <input type="range" id="sl-shopify" min="0" max="140" value="85" step="1" oninput="recalc()">
+        <span class="val" id="v-shopify">85%</span>
+        <span class="sec" id="o-shopify">816 OLIS</span>
+      </div>
+      <div class="slider-row">
+        <label>Distribuidores<br><span style="font-size:10px;color:#9c9a92">€140 · 240 OLIS</span></label>
+        <input type="range" id="sl-distrib" min="0" max="140" value="85" step="1" oninput="recalc()">
+        <span class="val" id="v-distrib">85%</span>
+        <span class="sec" id="o-distrib">204 OLIS</span>
+      </div>
+      <table class="rate-table">
+        <tr><th>Tasa fija Sales</th><th>Tasa fija Resto</th><th>Nota</th></tr>
+        <tr><td style="color:#0F6E56;font-weight:500">1,0%</td><td>1,0%</td><td style="color:#9c9a92">Tasa única sin tramos</td></tr>
+      </table>
+    </div>
+
+    <!-- Renovaciones -->
+    <div class="slider-card">
+      <div class="sc-head">
+        Renovaciones PRO
+        <span class="badge p-gray">ARR vto: €302.070 · Obj: 70%</span>
+      </div>
+      <div class="slider-row">
+        <label>% tasa renovación</label>
+        <input type="range" id="sl-ren" min="0" max="110" value="70" step="1" oninput="recalc()">
+        <span class="val" id="v-ren">70%</span>
+        <span class="sec" id="o-ren">€211.449</span>
+      </div>
+      <table class="rate-table">
+        <tr><th>Tasa fija Sales</th><th>Tasa fija Resto</th><th>Nota</th></tr>
+        <tr><td style="color:#0F6E56;font-weight:500">1,5%</td><td>1,0%</td><td style="color:#9c9a92">Tasa única sin tramos</td></tr>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kcard"><div class="kv" id="k-revenue">€0</div><div class="kl">Revenue total cobrado</div></div>
+    <div class="kcard"><div class="kv" id="k-pct-rev">0%</div><div class="kl">% sobre objetivo €1.817.949</div></div>
+    <div class="kcard"><div class="kv" id="k-total">€0</div><div class="kl">Comisiones totales empresa</div></div>
+  </div>
+
+
+  <!-- % COMISIONES SOBRE VENTAS + PRESCRIPTORES -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+
+    <!-- % comisiones sobre ventas -->
+    <div class="card">
+      <div class="card-head">% de comisiones sobre ventas</div>
+      <table>
+        <thead><tr><th>Concepto</th><th>Base de cálculo</th><th>Importe</th><th>% sobre revenue</th></tr></thead>
+        <tbody id="tb-pct-ventas"></tbody>
+      </table>
+      <div class="note">Calculado sobre el revenue total cobrado en el período según los tramos aplicados.</div>
+    </div>
+
+    <!-- Prescriptores -->
+    <div class="card">
+      <div class="card-head">Comisión prescriptores · Formato Compra</div>
+      <table>
+        <thead><tr><th>Concepto</th><th>Valor</th></tr></thead>
+        <tbody>
+          <tr><td>% de ventas Formato Compra con prescriptor</td><td><strong>11%</strong> de las unidades vendidas</td></tr>
+          <tr id="pr-olis-row"><td>OLIS con prescriptor estimados</td><td id="pr-olis">—</td></tr>
+          <tr id="pr-rev-row"><td>Revenue Formato Compra con prescriptor</td><td id="pr-rev">—</td></tr>
+          <tr><td>Tasa comisión prescriptor</td><td><strong>10%</strong> sobre el total de la venta</td></tr>
+          <tr><td style="font-weight:500;color:#1a1a18">Comisión total prescriptores</td><td><strong id="pr-total" style="font-size:15px;color:#0F6E56">—</strong></td></tr>
+          <tr><td>Impacto sobre revenue total</td><td id="pr-pct-rev" style="color:#633806;font-weight:500">—</td></tr>
+          <tr><td>Impacto sobre margen bruto (81,95%)</td><td id="pr-pct-margen" style="color:#791F1F;font-weight:500">—</td></tr>
+        </tbody>
+      </table>
+      <div class="note">Aplica solo sobre ventas Formato Compra donde intervino un prescriptor externo. La comisión de prescriptor es adicional e independiente de las comisiones del Equipo Sales.</div>
+    </div>
+
+  </div>
+
+  <!-- TABLA DETALLE B2B -->
+  <div class="card">
+    <div class="card-head">
+      Detalle por formato B2B · OLIS, revenue y comisión por tramo
+      <span class="ch-right" id="ch-b2b-total"></span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Formato</th>
+          <th>Precio avg</th>
+          <th>Obj. OLIS</th>
+          <th>OLIS logrados</th>
+          <th>% cumplimiento</th>
+          <th>Estado</th>
+          <th>Tramo aplicado</th>
+          <th>Tasa Sales</th>
+          <th>Tasa Resto</th>
+          <th>Revenue cobrado</th>
+          <th>Comisión Sales</th>
+          <th>Comisión Resto</th>
+        </tr>
+      </thead>
+      <tbody id="tb-b2b"></tbody>
+    </table>
+    <div class="note">Formato Compra tiene la tasa más alta (hasta 3,5% → 4,5%) por su mayor ticket promedio (€350). Suscripción, Partner y US tienen tasas menores pero mayor volumen de OLIS. Las tasas de T3 (acelerador) aplican solo sobre el revenue incremental por encima del 100% del objetivo.</div>
+  </div>
+
+  <!-- TABLA B2C + RENOVACIONES -->
+  <div class="card">
+    <div class="card-head">B2C Player + Renovaciones PRO</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Segmento</th>
+          <th>Precio avg</th>
+          <th>Objetivo</th>
+          <th>Logrado</th>
+          <th>% cumpl.</th>
+          <th>Estado</th>
+          <th>Tramo</th>
+          <th>Tasa Sales</th>
+          <th>Tasa Resto</th>
+          <th>Revenue</th>
+          <th>Com. Sales</th>
+          <th>Com. Resto</th>
+        </tr>
+      </thead>
+      <tbody id="tb-b2c"></tbody>
+    </table>
+  </div>
+
+  <!-- TOTALES -->
+  <div class="card">
+    <div class="card-head">Resumen total y distribución por persona</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Persona</th>
+          <th style="text-align:center">% ventas</th>
+          <th>Bruto est. anual</th>
+          <th>Comisión</th>
+          <th>% sobre salario bruto</th>
+        </tr>
+      </thead>
+      <tbody id="tb-dist"></tbody>
+    </table>
+    <div class="note">Distribución del pool Sales: Sergio 30% · Pablo 15% · David 20% · EEUU 25% · Pasantes 10%. Brutos estimados: Sergio €35.000 · Pablo €50.000 · David €35.000 · EEUU €40.000 · Pasantes €18.000. Ajustar según contratos reales.</div>
+  </div>
+
+  <!-- REGLAS -->
+  <div class="reglas">
+    <h3>Reglas generales de la política 2026</h3>
+    <div class="regla-row"><div class="rk">Umbral de activación</div><div class="rv">Cada formato se evalúa de forma independiente. Si un formato no llega al 70% de su objetivo de OLIS (60% para renovaciones), ese formato no genera ninguna comisión — aunque los demás estén al 100%.</div></div>
+    <div class="regla-row"><div class="rk">Diferenciación por ticket</div><div class="rv">Las tasas son progresivas según el precio promedio del formato: Compra €350 tiene la tasa más alta (3,5% a objetivo), Suscripción y US las más bajas (2,0%), Partner intermedia (2,5%). A mayor ticket, mayor comisión por OLIS vendido.</div></div>
+    <div class="regla-row"><div class="rk">Condición de cobranza</div><div class="rv">El 90% del revenue facturado en cada Q debe estar efectivamente cobrado al cierre del Q. Las facturas impagas al cierre del Q se difieren al siguiente semestre y no computan para el tramo de ese período.</div></div>
+    <div class="regla-row"><div class="rk">Acelerador no retroactivo</div><div class="rv">Al superar el 100% del objetivo, la tasa del Tramo 4 aplica únicamente sobre el revenue incremental generado por encima del objetivo — no retroactivo sobre todo lo vendido en el período.</div></div>
+    <div class="regla-row"><div class="rk">Liquidación semestral</div><div class="rv">Cierre de cálculo en junio y diciembre. Pago dentro de los 30 días posteriores al cierre de cada semestre. El empleado debe estar activo al momento del pago para tener derecho a la comisión del semestre.</div></div>
+    <div class="regla-row"><div class="rk">Estructura del equipo Sales</div><div class="rv">El pool de comisiones del Equipo Sales se distribuye por perfil: Sergio 30% · Pablo 15% · David 20% · EEUU 25% · Pasantes 10%. En Tramo 1 (0–69%) se paga el 1% mínimo para mantener el incentivo activo.</div></div>
+  </div>
+
+  <div class="footer">OLIVER Sports · Política de Comisiones 2026 · Documento de uso interno · Abril 2026</div>
+</div>
+
+<script>
+// ── DATOS BASE ──────────────────────────────────────────────
+const FORMATS = [
+  { id:'compra',  name:'Formato Compra',       precio:350, obj:1900, color:'p-blue',
+    rates:[ [0,90,0.020,0.010], [90,115,0.035,0.010], [115,999,0.045,0.010] ] },
+  { id:'susc',    name:'Formato Suscripción',   precio:185, obj:1280, color:'p-teal',
+    rates:[ [0,90,0.010,0.010], [90,115,0.020,0.010], [115,999,0.030,0.010] ] },
+  { id:'partner', name:'Formato Partner',       precio:250, obj:190,  color:'p-gray',
+    rates:[ [0,90,0.010,0.010], [90,115,0.020,0.010], [115,999,0.030,0.010] ] },
+  { id:'us',      name:'OLIVER PRO US',         precio:200, obj:2350, color:'p-amber',
+    rates:[ [0,90,0.010,0.010], [90,115,0.020,0.010], [115,999,0.030,0.010] ] },
+];
+const B2C = [
+  { id:'shopify', name:'Shopify + Eventos', precio:160, obj:960,
+    rates:[ [0,999,0.010,0.010] ] },
+  { id:'distrib', name:'Distribuidores',    precio:140, obj:240,
+    rates:[ [0,999,0.010,0.010] ] },
+];
+const ARR_VTO = 302070;
+const REN_RATES = [ [0,999,0.015,0.010] ];
+
+const BRUTOS = { sergio:35000, pablo:50000, david:35000, eeuu:40000, pasantes:18000 };
+
+// ── HELPERS ──────────────────────────────────────────────────
+function fmt(n){ return '€'+Math.round(n).toLocaleString('es-ES'); }
+function pct(n){ return (Math.round(n*10)/10)+'%'; }
+
+function getRates(rates, cumpl){
+  for(let r of rates){ if(cumpl >= r[0] && cumpl < r[1]) return {rs:r[2], rr:r[3]}; }
+  return {rs:0, rr:0};
+}
+
+function tramoLabel(rates, cumpl, isCompra){
+  if(isCompra){
+    if(cumpl < 90)  return {label:'T1 · 0–89% · 2%',           color:'p-amber'};
+    if(cumpl < 115) return {label:'T2 · 90–100% · 3,5%',        color:'p-green'};
+    return              {label:'T3 · +100% · 4,5% incremental', color:'p-blue'};
+  } else {
+    if(cumpl < 90)  return {label:'T1 · 0–89% · 1%',            color:'p-amber'};
+    if(cumpl < 115) return {label:'T2 · 90–100% objetivo',       color:'p-green'};
+    return              {label:'T3 · +100% · 3% incremental',    color:'p-blue'};
+  }
+}
+
+function barColor(c){ return c<70?'#E24B4A':c<100?'#BA7517':'#1D9E75'; }
+
+// ── RECALC ───────────────────────────────────────────────────
+function recalc(){
+  // Read sliders
+  const vals = {};
+  [...FORMATS, ...B2C].forEach(f=>{
+    const v = +document.getElementById('sl-'+f.id).value;
+    vals[f.id] = v;
+    document.getElementById('v-'+f.id).textContent = v+'%';
+    const olis = Math.round(f.obj*v/100);
+    document.getElementById('o-'+f.id).textContent = olis.toLocaleString('es-ES')+' OLIS';
+  });
+  const vren = +document.getElementById('sl-ren').value;
+  document.getElementById('v-ren').textContent = vren+'%';
+  document.getElementById('o-ren').textContent = fmt(ARR_VTO*vren/100);
+
+  // Calc per format
+  let totalRevenue=0, totalSales=0, totalResto=0;
+
+  // B2B table
+  let b2bHtml = '';
+  FORMATS.forEach(f=>{
+    const c = vals[f.id];
+    const olis = Math.round(f.obj*c/100);
+    const rev = olis * f.precio;
+    const r = getRates(f.rates, c);
+    const tl = tramoLabel(f.rates, c);
+    const bw = Math.min(100,c);
+    const cs = rev*r.rs, cr = rev*r.rr;
+    totalRevenue+=rev; totalSales+=cs; totalResto+=cr;
+    b2bHtml += `<tr>
+      <td><strong>${f.name}</strong></td>
+      <td><span class="pill ${f.color}">${f.precio}€</span></td>
+      <td>${f.obj.toLocaleString('es-ES')}</td>
+      <td>${olis.toLocaleString('es-ES')}</td>
+      <td><span>${c}%</span><div class="bar-wrap"><div class="bar-fill" style="width:${bw}%;background:${barColor(c)}"></div></div></td>
+      <td><span class="pill ${tl.color}">Activo</span></td>
+      <td>${tl.label}</td>
+      <td style="font-weight:500;color:${r.rs>0?'#0F6E56':'#791F1F'}">${pct(r.rs*100)}</td>
+      <td style="color:${r.rr>0?'#185FA5':'#791F1F'}">${pct(r.rr*100)}</td>
+      <td>${fmt(rev)}</td>
+      <td>${fmt(cs)}</td>
+      <td>${fmt(cr)}</td>
+    </tr>`;
+  });
+  // B2B total row
+  const b2bRevSum = FORMATS.reduce((s,f)=>s+Math.round(f.obj*vals[f.id]/100)*f.precio,0);
+  const b2bSalesSum = FORMATS.reduce((s,f)=>{ const c=vals[f.id]; return s+Math.round(f.obj*c/100)*f.precio*getRates(f.rates,c).rs; },0);
+  const b2bRestoSum = FORMATS.reduce((s,f)=>{ const c=vals[f.id]; return s+Math.round(f.obj*c/100)*f.precio*getRates(f.rates,c).rr; },0);
+  b2bHtml += `<tr class="total-row"><td colspan="9"><strong>Total B2B PRO New Teams</strong></td><td>${fmt(b2bRevSum)}</td><td>${fmt(b2bSalesSum)}</td><td>${fmt(b2bRestoSum)}</td></tr>`;
+  document.getElementById('tb-b2b').innerHTML = b2bHtml;
+  document.getElementById('ch-b2b-total').textContent = 'Revenue B2B: '+fmt(b2bRevSum);
+
+  // B2C + Renovaciones
+  let b2cHtml = '';
+  B2C.forEach(f=>{
+    const c = vals[f.id];
+    const olis = Math.round(f.obj*c/100);
+    const rev = olis*f.precio;
+    const r = getRates(f.rates, c);
+    const tl = {label:'Tasa fija · 1,0%', color:'p-green'};
+    const bw = Math.min(100,c);
+    const cs=rev*r.rs, cr=rev*r.rr;
+    totalRevenue+=rev; totalSales+=cs; totalResto+=cr;
+    b2cHtml += `<tr>
+      <td><strong>${f.name}</strong></td>
+      <td>${f.precio}€</td>
+      <td>${f.obj} OLIS</td>
+      <td>${olis.toLocaleString('es-ES')} OLIS</td>
+      <td><span>${c}%</span><div class="bar-wrap"><div class="bar-fill" style="width:${bw}%;background:${barColor(c)}"></div></div></td>
+      <td><span class="pill ${tl.color}">Activo</span></td>
+      <td>${tl.label}</td>
+      <td style="font-weight:500;color:${r.rs>0?'#0F6E56':'#791F1F'}">${pct(r.rs*100)}</td>
+      <td style="color:${r.rr>0?'#185FA5':'#791F1F'}">${pct(r.rr*100)}</td>
+      <td>${fmt(rev)}</td><td>${fmt(cs)}</td><td>${fmt(cr)}</td>
+    </tr>`;
+  });
+  // Renovaciones
+  const rev_ren = ARR_VTO*vren/100;
+  const r_ren = getRates(REN_RATES, vren);
+    const tl_ren = {label:'Tasa fija · 1,5%', color:'p-green'};
+  const cs_ren=rev_ren*r_ren.rs, cr_ren=rev_ren*r_ren.rr;
+  totalRevenue+=rev_ren; totalSales+=cs_ren; totalResto+=cr_ren;
+  b2cHtml += `<tr>
+    <td><strong>Renovaciones PRO</strong></td>
+    <td>—</td>
+    <td>Tasa 70%</td>
+    <td>Tasa ${vren}%</td>
+    <td><span>${vren}%</span><div class="bar-wrap"><div class="bar-fill" style="width:${Math.min(100,vren)}%;background:${barColor(vren)}"></div></div></td>
+    <td><span class="pill ${tl_ren.color}">Activo</span></td>
+    <td>${tl_ren.label}</td>
+    <td style="font-weight:500;color:${r_ren.rs>0?'#0F6E56':'#791F1F'}">${pct(r_ren.rs*100)}</td>
+    <td style="color:${r_ren.rr>0?'#185FA5':'#791F1F'}">${pct(r_ren.rr*100)}</td>
+    <td>${fmt(rev_ren)}</td><td>${fmt(cs_ren)}</td><td>${fmt(cr_ren)}</td>
+  </tr>`;
+  document.getElementById('tb-b2c').innerHTML = b2cHtml;
+
+  // KPIs — pool igualitario entre 6 personas, sin tope
+  const pool_pp     = totalSales/6; // legacy, not used for display
+  const com_total   = totalSales+totalResto;
+
+  document.getElementById('k-revenue').textContent = fmt(totalRevenue);
+  document.getElementById('k-pct-rev').textContent = Math.round(totalRevenue/1817949*100)+'%';
+  document.getElementById('k-total').textContent   = fmt(com_total);
+
+  // Distribución por perfil: Sergio 30%, Pablo 15%, David 20%, EEUU 25%, Pasantes 10%
+  const personas = [
+    {n:'Sergio',   pct:0.30, bruto:BRUTOS.sergio,   cb:totalSales*0.30},
+    {n:'Pablo',    pct:0.15, bruto:BRUTOS.pablo,     cb:totalSales*0.15},
+    {n:'David',    pct:0.20, bruto:BRUTOS.david,     cb:totalSales*0.20},
+    {n:'EEUU',     pct:0.25, bruto:BRUTOS.eeuu,      cb:totalSales*0.25},
+    {n:'Pasantes', pct:0.10, bruto:BRUTOS.pasantes,  cb:totalSales*0.10},
+  ];
+  let dh='';
+  personas.forEach(p=>{
+    const pb = p.bruto>0 ? Math.round(p.cb/p.bruto*100) : 0;
+    const col = pb>25?'#791F1F':pb>15?'#633806':'#27500A';
+    dh+=`<tr>
+      <td><strong>${p.n}</strong></td>
+      <td style="text-align:center;font-weight:500">${Math.round(p.pct*100)}%</td>
+      <td>${fmt(p.bruto)}</td>
+      <td><strong>${fmt(p.cb)}</strong></td>
+      <td><span style="font-weight:500;color:${col}">${pb}% del bruto</span></td>
+    </tr>`;
+  });
+  dh+=`<tr class="total-row"><td colspan="3"><strong>Total comisiones empresa</strong></td><td><strong>${fmt(com_total)}</strong></td><td>${pct(com_total/totalRevenue*100)} del revenue</td></tr>`;
+  document.getElementById('tb-dist').innerHTML = dh;
+
+  // % comisiones sobre ventas
+  const pct_sales_ventas = totalRevenue > 0 ? totalSales/totalRevenue*100 : 0;
+  const pct_resto_ventas = totalRevenue > 0 ? totalResto/totalRevenue*100 : 0;
+  const pct_total_ventas = totalRevenue > 0 ? com_total/totalRevenue*100 : 0;
+  document.getElementById('tb-pct-ventas').innerHTML = `
+    <tr><td>Comisiones Equipo Sales</td><td>${fmt(totalRevenue)}</td><td>${fmt(totalSales)}</td><td style="font-weight:500">${pct_sales_ventas.toFixed(2)}%</td></tr>
+    <tr><td>Comisiones Resto del equipo</td><td>${fmt(totalRevenue)}</td><td>${fmt(totalResto)}</td><td>${pct_resto_ventas.toFixed(2)}%</td></tr>
+    <tr style="background:#f5f4f0;font-weight:500"><td>Total comisiones</td><td>${fmt(totalRevenue)}</td><td>${fmt(com_total)}</td><td style="color:#0F6E56;font-weight:500">${pct_total_ventas.toFixed(2)}%</td></tr>
+  `;
+
+  // Prescriptores — sobre Formato Compra
+  const compra_cumpl = vals['compra'];
+  const compra_olis  = Math.round(1900 * compra_cumpl / 100);
+  const compra_rev   = compra_olis * 350;
+  const presc_olis   = Math.round(compra_olis * 0.11);
+  const presc_rev    = presc_olis * 350;
+  const presc_com    = presc_rev * 0.10;
+  const presc_pct_rev    = totalRevenue > 0 ? presc_com/totalRevenue*100 : 0;
+  const presc_pct_margen = compra_rev > 0 ? presc_com/(compra_rev*0.8195)*100 : 0;
+
+  document.getElementById('pr-olis').textContent    = presc_olis.toLocaleString('es-ES') + ' OLIS (' + compra_cumpl + '% cumpl.)';
+  document.getElementById('pr-rev').textContent     = fmt(presc_rev);
+  document.getElementById('pr-total').textContent   = fmt(presc_com);
+  document.getElementById('pr-pct-rev').textContent = presc_pct_rev.toFixed(2) + '% del revenue total';
+  document.getElementById('pr-pct-margen').textContent = presc_pct_margen.toFixed(2) + '% del margen bruto Compra';
+
+}
+
+function setScenario(v, el){
+  [...FORMATS,...B2C].forEach(f=>{ document.getElementById('sl-'+f.id).value=v; });
+  document.getElementById('sl-ren').value = Math.min(v,100);
+  document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  recalc();
+}
+
+recalc();
+</script>
+</body>
+</html>
