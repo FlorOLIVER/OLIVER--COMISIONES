@@ -83,12 +83,12 @@
 <body>
 <div class="container">
 
-  <p class="subtitle">Objetivo total: 5.720 OLIS B2B + 1.200 OLIS B2C + Renovaciones · Condición: 90% cobranza por Q</p>
+  <p class="subtitle">Objetivo total: 5.720 OLIS B2B + 1.200 OLIS B2C + Renovaciones · Condición: 90% cobranza por Q · Pago: S1 a tasa T1, ajuste en diciembre</p>
 
   <!-- SCENARIO TABS -->
   <div class="scenario-tabs">
-    <div class="stab" onclick="setScenario(50,this)">50% · Año muy malo</div>
-    <div class="stab" onclick="setScenario(70,this)">70% · Umbral mínimo</div>
+    <div class="stab" onclick="setScenario(50,this)">50% · Sin comisión</div>
+    <div class="stab" onclick="setScenario(65,this)">65% · Umbral mínimo</div>
     <div class="stab active" onclick="setScenario(85,this)">85% · Año regular</div>
     <div class="stab" onclick="setScenario(100,this)">100% · Objetivo pleno</div>
     <div class="stab" onclick="setScenario(115,this)">115% · Superación</div>
@@ -112,9 +112,9 @@
       </div>
       <table class="rate-table">
         <tr><th>Tramo</th><th>Tasa Sales</th><th>Tasa Resto</th><th>Motivo</th></tr>
-        <tr><td>T1 · 0–89%</td><td>2,0%</td><td>1,0%</td><td style="color:#9c9a92">Tramo base · ticket €350</td></tr>
-        <tr><td>T2 · 90–100%</td><td style="color:#0F6E56;font-weight:500">3,5%</td><td>1,0%</td><td style="color:#9c9a92">Objetivo cumplido</td></tr>
-        <tr><td>T3 · +100%</td><td style="color:#185FA5;font-weight:500">4,5%</td><td>1,0%</td><td style="color:#9c9a92">Solo revenue incremental</td></tr>
+        <tr><td>T1 · 65–80%</td><td>2,0%</td><td>1,0%</td><td style="color:#9c9a92">Tramo base · ticket €350</td></tr>
+        <tr><td>T2 · 81–99%</td><td style="color:#0F6E56;font-weight:500">3,5%</td><td>1,0%</td><td style="color:#9c9a92">Objetivo cumplido</td></tr>
+        <tr><td>T3 · ≥100%</td><td style="color:#185FA5;font-weight:500">4,5%</td><td>1,0%</td><td style="color:#9c9a92">Solo revenue incremental</td></tr>
       </table>
     </div>
 
@@ -132,9 +132,9 @@
       </div>
       <table class="rate-table">
         <tr><th>Tramo</th><th>Tasa Sales</th><th>Tasa Resto</th><th>Motivo</th></tr>
-        <tr><td>T1 · 0–89%</td><td>1,0%</td><td>1,0%</td><td style="color:#9c9a92">Tramo base · ticket €185</td></tr>
-        <tr><td>T2 · 90–100%</td><td style="color:#0F6E56;font-weight:500">2,0%</td><td>1,0%</td><td style="color:#9c9a92">Objetivo cumplido</td></tr>
-        <tr><td>T3 · +100%</td><td style="color:#185FA5;font-weight:500">3,0%</td><td>1,0%</td><td style="color:#9c9a92">Solo revenue incremental</td></tr>
+        <tr><td>T1 · 65–80%</td><td>1,0%</td><td>1,0%</td><td style="color:#9c9a92">Tramo base · ticket €185</td></tr>
+        <tr><td>T2 · 81–99%</td><td style="color:#0F6E56;font-weight:500">2,0%</td><td>1,0%</td><td style="color:#9c9a92">Objetivo cumplido</td></tr>
+        <tr><td>T3 · ≥100%</td><td style="color:#185FA5;font-weight:500">3,0%</td><td>1,0%</td><td style="color:#9c9a92">Solo revenue incremental</td></tr>
       </table>
     </div>
 
@@ -152,9 +152,9 @@
       </div>
       <table class="rate-table">
         <tr><th>Tramo</th><th>Tasa Sales</th><th>Tasa Resto</th><th>Motivo</th></tr>
-        <tr><td>T1 · 0–89%</td><td>1,0%</td><td>1,0%</td><td style="color:#9c9a92">Tramo base · ticket €250</td></tr>
-        <tr><td>T2 · 90–100%</td><td style="color:#0F6E56;font-weight:500">2,0%</td><td>1,0%</td><td style="color:#9c9a92">Objetivo cumplido</td></tr>
-        <tr><td>T3 · +100%</td><td style="color:#185FA5;font-weight:500">3,0%</td><td>1,0%</td><td style="color:#9c9a92">Solo revenue incremental</td></tr>
+        <tr><td>T1 · 65–80%</td><td>1,0%</td><td>1,0%</td><td style="color:#9c9a92">Tramo base · ticket €250</td></tr>
+        <tr><td>T2 · 81–99%</td><td style="color:#0F6E56;font-weight:500">2,0%</td><td>1,0%</td><td style="color:#9c9a92">Objetivo cumplido</td></tr>
+        <tr><td>T3 · ≥100%</td><td style="color:#185FA5;font-weight:500">3,0%</td><td>1,0%</td><td style="color:#9c9a92">Solo revenue incremental</td></tr>
       </table>
     </div>
 
@@ -172,9 +172,9 @@
       </div>
       <table class="rate-table">
         <tr><th>Tramo</th><th>Tasa Sales</th><th>Tasa Resto</th><th>Motivo</th></tr>
-        <tr><td>T1 · 0–89%</td><td>1,0%</td><td>1,0%</td><td style="color:#9c9a92">Tramo base · ticket €200</td></tr>
-        <tr><td>T2 · 90–100%</td><td style="color:#0F6E56;font-weight:500">2,0%</td><td>1,0%</td><td style="color:#9c9a92">Objetivo cumplido</td></tr>
-        <tr><td>T3 · +100%</td><td style="color:#185FA5;font-weight:500">3,0%</td><td>1,0%</td><td style="color:#9c9a92">Solo revenue incremental</td></tr>
+        <tr><td>T1 · 65–80%</td><td>1,0%</td><td>1,0%</td><td style="color:#9c9a92">Tramo base · ticket €200</td></tr>
+        <tr><td>T2 · 81–99%</td><td style="color:#0F6E56;font-weight:500">2,0%</td><td>1,0%</td><td style="color:#9c9a92">Objetivo cumplido</td></tr>
+        <tr><td>T3 · ≥100%</td><td style="color:#185FA5;font-weight:500">3,0%</td><td>1,0%</td><td style="color:#9c9a92">Solo revenue incremental</td></tr>
       </table>
     </div>
 
@@ -185,7 +185,7 @@
         <span class="badge p-gray">€156 pond. · 1.200 OLIS obj.</span>
       </div>
       <div class="slider-row">
-        <label>Shopify + Eventos<br><span style="font-size:10px;color:#9c9a92">€160 · 960 OLIS</span></label>
+        <label>Eventos<br><span style="font-size:10px;color:#9c9a92">€160 · 960 OLIS</span></label>
         <input type="range" id="sl-shopify" min="0" max="140" value="85" step="1" oninput="recalc()">
         <span class="val" id="v-shopify">85%</span>
         <span class="sec" id="o-shopify">816 OLIS</span>
@@ -206,7 +206,7 @@
     <div class="slider-card">
       <div class="sc-head">
         Renovaciones PRO
-        <span class="badge p-gray">ARR vto: €302.070 · Obj: 70%</span>
+        <span class="badge p-gray">ARR vto: €211.449 · Obj: 70%</span>
       </div>
       <div class="slider-row">
         <label>% tasa renovación</label>
@@ -333,15 +333,46 @@
     <div class="note">Distribución del pool Sales: Sergio 30% · Pablo 15% · David 20% · EEUU 25% · Pasantes 10%. Brutos estimados: Sergio €35.000 · Pablo €50.000 · David €35.000 · EEUU €40.000 · Pasantes €18.000. Ajustar según contratos reales.</div>
   </div>
 
+
+  <!-- PAGO SEMESTRAL -->
+  <div class="reglas" id="sem-section">
+    <h3>Lógica de pago semestral</h3>
+    <div class="regla-row"><div class="rk">S1 — Pago junio</div><div class="rv">Se paga a <strong>tasa T1</strong> sobre el revenue cobrado en el semestre (Q1+Q2), independientemente del tramo proyectado. Pago conservador que protege a la empresa.</div></div>
+    <div class="regla-row"><div class="rk">Cierre anual — Diciembre</div><div class="rv">Se determina el tramo definitivo anual y se liquida la diferencia: comisión anual según tramo real menos lo ya pagado en S1.</div></div>
+    <div class="regla-row"><div class="rk">Si no llega al 65%</div><div class="rv">El monto pagado en S1 se difiere al siguiente semestre. No se descuenta del sueldo ni se genera deuda.</div></div>
+    <div style="margin-top:12px;">
+      <table style="width:100%;font-size:12px;border-collapse:collapse;">
+        <thead><tr>
+          <th style="text-align:left;padding:6px 10px;background:#f5f4f0;border:1px solid #e0dfd8;font-size:10px;font-weight:500;color:#73726c;text-transform:uppercase;">Escenario anual</th>
+          <th style="text-align:left;padding:6px 10px;background:#f5f4f0;border:1px solid #e0dfd8;font-size:10px;font-weight:500;color:#73726c;text-transform:uppercase;">Pagado en S1</th>
+          <th style="text-align:left;padding:6px 10px;background:#f5f4f0;border:1px solid #e0dfd8;font-size:10px;font-weight:500;color:#73726c;text-transform:uppercase;">Ajuste diciembre</th>
+        </tr></thead>
+        <tbody>
+          <tr><td style="padding:6px 10px;border:1px solid #e0dfd8;">Terminó en T1 (65–80%)</td><td style="padding:6px 10px;border:1px solid #e0dfd8;">Tasa T1</td><td style="padding:6px 10px;border:1px solid #e0dfd8;">Sin diferencia</td></tr>
+          <tr style="background:#faf9f6"><td style="padding:6px 10px;border:1px solid #e0dfd8;">Terminó en T2 (81–99%)</td><td style="padding:6px 10px;border:1px solid #e0dfd8;">Tasa T1</td><td style="padding:6px 10px;border:1px solid #e0dfd8;color:#0F6E56;font-weight:500">Diferencia T2−T1 sobre revenue anual</td></tr>
+          <tr><td style="padding:6px 10px;border:1px solid #e0dfd8;">Terminó en T3 (≥100%)</td><td style="padding:6px 10px;border:1px solid #e0dfd8;">Tasa T1</td><td style="padding:6px 10px;border:1px solid #e0dfd8;color:#185FA5;font-weight:500">Diferencia T2−T1 + T3 sobre incremental</td></tr>
+          <tr style="background:#faf9f6"><td style="padding:6px 10px;border:1px solid #e0dfd8;">No llegó al 65%</td><td style="padding:6px 10px;border:1px solid #e0dfd8;color:#791F1F">Sin comisión (S1 pagado se difiere)</td><td style="padding:6px 10px;border:1px solid #e0dfd8;color:#791F1F">S1 no se descuenta — se difiere al siguiente semestre</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:12px;padding:10px 14px;background:#f5f4f0;border-radius:6px;font-size:11px;color:#3d3d3a;line-height:1.7;">
+      <strong>Simulación S1 / Ajuste diciembre:</strong> &nbsp;
+      Revenue S1 (Q1+Q2): <strong id="sem-rev-s1">—</strong> &nbsp;·&nbsp;
+      Pago S1 (T1): <strong id="sem-pago-s1" style="color:#BA7517">—</strong> &nbsp;·&nbsp;
+      Comisión anual según tramo real: <strong id="sem-com-anual" style="color:#0F6E56">—</strong> &nbsp;·&nbsp;
+      Ajuste diciembre: <strong id="sem-ajuste" style="color:#185FA5">—</strong>
+    </div>
+  </div>
+
   <!-- REGLAS -->
   <div class="reglas">
     <h3>Reglas generales de la política 2026</h3>
-    <div class="regla-row"><div class="rk">Umbral de activación</div><div class="rv">Cada formato se evalúa de forma independiente. Si un formato no llega al 70% de su objetivo de OLIS (60% para renovaciones), ese formato no genera ninguna comisión — aunque los demás estén al 100%.</div></div>
-    <div class="regla-row"><div class="rk">Diferenciación por ticket</div><div class="rv">Las tasas son progresivas según el precio promedio del formato: Compra €350 tiene la tasa más alta (3,5% a objetivo), Suscripción y US las más bajas (2,0%), Partner intermedia (2,5%). A mayor ticket, mayor comisión por OLIS vendido.</div></div>
+    <div class="regla-row"><div class="rk">Umbral de activación</div><div class="rv">Cada formato se evalúa de forma independiente. Si un formato no llega al 65% de su objetivo de OLIS (60% para renovaciones), ese formato no genera ninguna comisión — aunque los demás estén al 100%.</div></div>
+    <div class="regla-row"><div class="rk">Diferenciación por ticket</div><div class="rv">Las tasas son progresivas según el precio promedio del formato: Compra €350 tiene la tasa más alta (3,5% en T2), Suscripción, Partner y US tienen 2,0% en T2. T1 arranca en 65%. A mayor ticket, mayor comisión por OLIS vendido.</div></div>
     <div class="regla-row"><div class="rk">Condición de cobranza</div><div class="rv">El 90% del revenue facturado en cada Q debe estar efectivamente cobrado al cierre del Q. Las facturas impagas al cierre del Q se difieren al siguiente semestre y no computan para el tramo de ese período.</div></div>
     <div class="regla-row"><div class="rk">Acelerador no retroactivo</div><div class="rv">Al superar el 100% del objetivo, la tasa del Tramo 4 aplica únicamente sobre el revenue incremental generado por encima del objetivo — no retroactivo sobre todo lo vendido en el período.</div></div>
     <div class="regla-row"><div class="rk">Liquidación semestral</div><div class="rv">Cierre de cálculo en junio y diciembre. Pago dentro de los 30 días posteriores al cierre de cada semestre. El empleado debe estar activo al momento del pago para tener derecho a la comisión del semestre.</div></div>
-    <div class="regla-row"><div class="rk">Estructura del equipo Sales</div><div class="rv">El pool de comisiones del Equipo Sales se distribuye por perfil: Sergio 30% · Pablo 15% · David 20% · EEUU 25% · Pasantes 10%. En Tramo 1 (0–69%) se paga el 1% mínimo para mantener el incentivo activo.</div></div>
+    <div class="regla-row"><div class="rk">Estructura del equipo Sales</div><div class="rv">El pool de comisiones del Equipo Sales se distribuye por perfil: Sergio 30% · Pablo 15% · David 20% · EEUU 25% · Pasantes 10%. T1 (65–80%): tasa base. Por debajo del 65%, sin comisión ese período. S1 se paga a tasa T1; la diferencia se ajusta en diciembre según tramo anual real.</div></div>
   </div>
 
   <div class="footer">OLIVER Sports · Política de Comisiones 2026 · Documento de uso interno · Abril 2026</div>
@@ -351,22 +382,22 @@
 // ── DATOS BASE ──────────────────────────────────────────────
 const FORMATS = [
   { id:'compra',  name:'Formato Compra',       precio:350, obj:1900, color:'p-blue',
-    rates:[ [0,90,0.020,0.010], [90,115,0.035,0.010], [115,999,0.045,0.010] ] },
+    rates:[ [0,65,0,0], [65,81,0.020,0.010], [81,115,0.035,0.010], [115,999,0.045,0.010] ] },
   { id:'susc',    name:'Formato Suscripción',   precio:185, obj:1280, color:'p-teal',
-    rates:[ [0,90,0.010,0.010], [90,115,0.020,0.010], [115,999,0.030,0.010] ] },
+    rates:[ [0,65,0,0], [65,81,0.010,0.010], [81,115,0.020,0.010], [115,999,0.030,0.010] ] },
   { id:'partner', name:'Formato Partner',       precio:250, obj:190,  color:'p-gray',
-    rates:[ [0,90,0.010,0.010], [90,115,0.020,0.010], [115,999,0.030,0.010] ] },
+    rates:[ [0,65,0,0], [65,81,0.010,0.010], [81,115,0.020,0.010], [115,999,0.030,0.010] ] },
   { id:'us',      name:'OLIVER PRO US',         precio:200, obj:2350, color:'p-amber',
-    rates:[ [0,90,0.010,0.010], [90,115,0.020,0.010], [115,999,0.030,0.010] ] },
+    rates:[ [0,65,0,0], [65,81,0.010,0.010], [81,115,0.020,0.010], [115,999,0.030,0.010] ] },
 ];
 const B2C = [
-  { id:'shopify', name:'Shopify + Eventos', precio:160, obj:960,
+  { id:'shopify', name:'Eventos', precio:160, obj:960,
     rates:[ [0,999,0.010,0.010] ] },
   { id:'distrib', name:'Distribuidores',    precio:140, obj:240,
     rates:[ [0,999,0.010,0.010] ] },
 ];
-const ARR_VTO = 302070;
-const REN_RATES = [ [0,999,0.015,0.010] ];
+const ARR_VTO = 211449;
+const REN_RATES = [ [0,60,0,0], [60,999,0.015,0.010] ];
 
 const BRUTOS = { sergio:35000, pablo:50000, david:35000, eeuu:40000, pasantes:18000 };
 
@@ -380,18 +411,19 @@ function getRates(rates, cumpl){
 }
 
 function tramoLabel(rates, cumpl, isCompra){
+  if(cumpl < 65) return {label:'Sin comisión · <65%', color:'p-red'};
   if(isCompra){
-    if(cumpl < 90)  return {label:'T1 · 0–89% · 2%',           color:'p-amber'};
-    if(cumpl < 115) return {label:'T2 · 90–100% · 3,5%',        color:'p-green'};
-    return              {label:'T3 · +100% · 4,5% incremental', color:'p-blue'};
+    if(cumpl < 81)  return {label:'T1 · 65–80% · 2%',            color:'p-amber'};
+    if(cumpl < 115) return {label:'T2 · 81–99% · 3,5%',          color:'p-green'};
+    return              {label:'T3 · ≥100% · 4,5% incremental',  color:'p-blue'};
   } else {
-    if(cumpl < 90)  return {label:'T1 · 0–89% · 1%',            color:'p-amber'};
-    if(cumpl < 115) return {label:'T2 · 90–100% objetivo',       color:'p-green'};
-    return              {label:'T3 · +100% · 3% incremental',    color:'p-blue'};
+    if(cumpl < 81)  return {label:'T1 · 65–80% · 1%',            color:'p-amber'};
+    if(cumpl < 115) return {label:'T2 · 81–99% objetivo',        color:'p-green'};
+    return              {label:'T3 · ≥100% · 3% incremental',    color:'p-blue'};
   }
 }
 
-function barColor(c){ return c<70?'#E24B4A':c<100?'#BA7517':'#1D9E75'; }
+function barColor(c){ return c<65?'#E24B4A':c<81?'#BA7517':'#1D9E75'; }
 
 // ── RECALC ───────────────────────────────────────────────────
 function recalc(){
@@ -545,6 +577,41 @@ function recalc(){
   document.getElementById('pr-total').textContent   = fmt(presc_com);
   document.getElementById('pr-pct-rev').textContent = presc_pct_rev.toFixed(2) + '% del revenue total';
   document.getElementById('pr-pct-margen').textContent = presc_pct_margen.toFixed(2) + '% del margen bruto Compra';
+
+  // Semestral simulation — S1 = first half revenue at T1, full year at real tramo
+  // Approximate S1 as 50% of annual revenue (simplified)
+  const s1_rev = totalRevenue * 0.5;
+  // S1 always paid at T1 rates for each format
+  let s1_pago = 0;
+  FORMATS.forEach(f=>{
+    const c = vals[f.id];
+    const olis_s1 = Math.round(f.obj*c/100) * 0.5;
+    const rev_s1 = olis_s1 * f.precio;
+    // T1 rate (only if >= 65%)
+    if(c >= 65) {
+      const t1_rate = f.id === 'compra' ? 0.020 : 0.010;
+      s1_pago += rev_s1 * t1_rate;
+    }
+  });
+  // Add B2C half
+  B2C.forEach(f=>{
+    const c = vals[f.id];
+    const rev_s1 = Math.round(f.obj*c/100)*0.5*f.precio;
+    if(c >= 65) s1_pago += rev_s1 * 0.010;
+  });
+  // Add renovaciones half
+  if(vren >= 60) s1_pago += (ARR_VTO*vren/100)*0.5*0.015;
+
+  const ajuste = Math.max(0, totalSales - s1_pago);
+
+  const semRevS1 = document.getElementById('sem-rev-s1');
+  const semPagoS1 = document.getElementById('sem-pago-s1');
+  const semComAnual = document.getElementById('sem-com-anual');
+  const semAjuste = document.getElementById('sem-ajuste');
+  if(semRevS1) semRevS1.textContent = fmt(s1_rev);
+  if(semPagoS1) semPagoS1.textContent = fmt(s1_pago);
+  if(semComAnual) semComAnual.textContent = fmt(totalSales);
+  if(semAjuste) semAjuste.textContent = fmt(ajuste);
 
 }
 
